@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Gateway</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="brand">
+                <div class="logo"></div>
+                <h2>AeroPay</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" class="icon">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke="currentColor" stroke-width="2"
+                            stroke-linejoin="round" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" class="icon">
+                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                    Transaction History
+                </a>
+                <a href="#" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" class="icon">
+                        <path
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1>Payment Gateway</h1>
+            </header>
+
+            <div class="gateway-container">
+                <div class="gateway-card glass-panel floating-element">
+
+                    <div class="qr-section">
+                        <div class="qr-display glass-panel-inner">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SamplePaymentData&color=ffffff&bgcolor=00000000"
+                                alt="Deposit QR Code" class="qr-image">
+                            <p class="qr-hint">Scan to Deposit</p>
+                        </div>
+                    </div>
+
+                    <form id="transaction-form" class="transaction-form">
+                        <div class="form-group">
+                            <label for="action-type">Action Type</label>
+                            <div class="select-wrapper">
+                                <select id="action-type" name="actionType" required>
+                                    <option value="" disabled selected>Select Action</option>
+                                    <option value="Deposit">Deposit</option>
+                                    <option value="Withdrawal">Withdrawal</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="user-id">User ID Number</label>
+                            <input type="text" id="user-id" name="userId" placeholder="Enter ID e.g., 98214" required
+                                autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <div class="input-with-icon">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="amount" name="amount" placeholder="0.00" min="0.01" step="0.01"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="payment-screenshot">Payment Screenshot (Optional)</label>
+                            <div class="file-upload-wrapper">
+                                <input type="file" id="payment-screenshot" name="screenshot" accept="image/*"
+                                    class="file-input">
+                                <div class="file-upload-custom">
+                                    <svg viewBox="0 0 24 24" fill="none" class="upload-icon">
+                                        <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                    <span class="file-name">Choose an image...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="message-container" id="message-container"></div>
+
+                        <button type="submit" class="floating-btn gradient-btn pulse-hover">
+                            <span>Create Transaction</span>
+                            <svg viewBox="0 0 24 24" fill="none" class="btn-icon">
+                                <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Interactive glowing orbs in background -->
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
