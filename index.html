@@ -54,7 +54,7 @@
             <div class="gateway-container">
                 <div class="gateway-card glass-panel floating-element">
 
-                    <div class="qr-section">
+                    <div class="qr-section" id="qr-section">
                         <div class="qr-display glass-panel-inner">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SamplePaymentData&color=ffffff&bgcolor=00000000"
                                 alt="Deposit QR Code" class="qr-image">
@@ -89,14 +89,36 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- Withdrawal Specific Fields (Hidden by default) -->
+                        <div id="withdrawal-fields" class="conditional-fields hidden-field">
+                            <div class="form-group">
+                                <label for="bank-ac">Bank Account Number</label>
+                                <input type="text" id="bank-ac" name="bankAc" placeholder="Enter Account Number">
+                            </div>
+                            <div class="form-group">
+                                <label for="bank-ifsc">IFSC Code</label>
+                                <input type="text" id="bank-ifsc" name="bankIfsc" placeholder="Enter IFSC Code">
+                            </div>
+                            <div class="form-group">
+                                <label for="bank-name">Bank Name</label>
+                                <input type="text" id="bank-name" name="bankName"
+                                    placeholder="e.g., State Bank of India">
+                            </div>
+                            <div class="form-group">
+                                <label for="upi-id">UPI ID (Optional)</label>
+                                <input type="text" id="upi-id" name="upiId" placeholder="example@upi">
+                            </div>
+                        </div>
+
+                        <!-- Deposit Specific Fields -->
+                        <div class="form-group" id="deposit-screenshot-group">
                             <label for="payment-screenshot">Payment Screenshot (Optional)</label>
                             <div class="file-upload-wrapper">
                                 <input type="file" id="payment-screenshot" name="screenshot" accept="image/*"
                                     class="file-input">
                                 <div class="file-upload-custom">
                                     <svg viewBox="0 0 24 24" fill="none" class="upload-icon">
-                                        <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                                        <path d="M4 16v1a3 0 003 3h10a3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
                                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>

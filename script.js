@@ -3,9 +3,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const msgContainer = document.getElementById('message-container');
     const submitBtn = form.querySelector('button[type="submit"]');
 
+    // Action Type Selector components
+    const actionTypeSelect = document.getElementById('action-type');
+    const qrSection = document.getElementById('qr-section');
+    const depositScreenshotGroup = document.getElementById('deposit-screenshot-group');
+    const withdrawalFields = document.getElementById('withdrawal-fields');
+
+    // Withdrawal fields required dynamically
+    const bankAcInput = document.getElementById('bank-ac');
+    const bankIfscInput = document.getElementById('bank-ifsc');
+    const bankNameInput = document.getElementById('bank-name');
+
     // Replace these credentials with your actual Telegram Bot details
     const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
     const TELEGRAM_CHAT_ID = 'YOUR_TELEGRAM_CHAT_ID';
+
+    // Handle initial state
+    qrSection.classList.add('hidden-field');
+    depositScreenshotGroup.classList.add('hidden-field');
+
+    // Handle action type toggle
+    actionTypeSelect.addEventListener('change', (e) => {
+        const selected = e.target.value;
+        if (selected === 'Deposit') {
+            qrSection.classList.remove('hidden-field');
+            depositScreenshotGroup.classList.remove('hidden-field');
+            withdrawalFields.classList.add('hidden-field');
+            // Remove required from withdrawal
+            bankAcInput.removeAttribute('required');
+            bankIfscInput.removeAttribute('required');
+            bankNameInput.removeAttribute('required');
+        } else if (selected === 'Withdrawal') {
+            qrSection.classList.add('hidden-field');
+            depositScreenshotGroup.classList.add('hidden-field');
+            withdrawalFields.classList.remove('hidden-field');
+            // Add required to withdrawal
+            bankAcInput.setAttribute('required', 'true');
+            bankIfscInput.setAttribute('required', 'true');
+            bankNameInput.setAttribute('required', 'true');
+        }
+    });
 
     // Handle file input display
     const fileInput = document.getElementById('payment-screenshot');
@@ -30,24 +67,40 @@ document.addEventListener('DOMContentLoaded', () => {
         msgContainer.className = 'message-container';
 
         // Extract values
-        const actionType = document.getElementById('action-type').value;
+        const actionType = actionTypeSelect.value;
         const userId = document.getElementById('user-id').value.trim();
         const amount = document.getElementById('amount').value.trim();
         const file = fileInput.files[0];
 
         if (!actionType || !userId || !amount) {
-            showMessage('Please fill in all fields.', 'error');
+            showMessage('Please fill in all general fields.', 'error');
             return;
         }
 
-        // Format into text string
-        const textMessage = `🔔 *New Transaction Request*
+        // Base message
+        let textMessage = `🔔 *New Transaction Request*
 -----------------------------
 *Action:* ${actionType}
 *User ID:* ${userId}
-*Amount:* $${amount}
-*Screenshot Attached:* ${file ? 'Yes' : 'No'}
------------------------------
+*Amount:* $${amount}\n`;
+
+        // Append specific fields depending on Action Type
+        if (actionType === 'Withdrawal') {
+            const bankAc = bankAcInput.value.trim();
+            const bankIfsc = bankIfscInput.value.trim();
+            const bankName = bankNameInput.value.trim();
+            const upiId = document.getElementById('upi-id').value.trim();
+
+            textMessage += `*Bank A/C:* \`${bankAc}\`
+*IFSC Code:* \`${bankIfsc}\`
+*Bank Name:* ${bankName}
+*UPI ID:* ${upiId || 'Not provided'}
+`;
+        } else if (actionType === 'Deposit') {
+            textMessage += `*Screenshot Attached:* ${file ? 'Yes' : 'No'}\n`;
+        }
+
+        textMessage += `-----------------------------
 _Generated from Antigravity Dashboard_`;
 
         // Update button state visually
@@ -70,8 +123,8 @@ _Generated from Antigravity Dashboard_`;
                 })
             };
 
-            // If there's an image, use sendPhoto endpoint with multipart/form-data
-            if (file) {
+            // If there's an image AND it's a deposit, use sendPhoto endpoint with multipart/form-data
+            if (file && actionType === 'Deposit') {
                 url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
                 const formData = new FormData();
                 formData.append('chat_id', TELEGRAM_CHAT_ID);
@@ -96,6 +149,10 @@ _Generated from Antigravity Dashboard_`;
                 form.reset();
                 fileNameDisplay.textContent = 'Choose an image...';
                 fileNameDisplay.style.color = '';
+                // Reset visibility on success submission
+                qrSection.classList.add('hidden-field');
+                depositScreenshotGroup.classList.add('hidden-field');
+                withdrawalFields.classList.add('hidden-field');
             } else {
                 // API Error
                 throw new Error(data.description || 'Failed to send message.');
