@@ -54,7 +54,7 @@
             <div class="gateway-container">
                 <div class="gateway-card glass-panel floating-element">
 
-                    <div class="qr-section" id="qr-section">
+                    <div class="qr-section hidden-field" id="qr-section">
                         <div class="qr-display glass-panel-inner">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SamplePaymentData&color=ffffff&bgcolor=00000000"
                                 alt="Deposit QR Code" class="qr-image">
@@ -111,7 +111,7 @@
                         </div>
 
                         <!-- Deposit Specific Fields -->
-                        <div class="form-group" id="deposit-screenshot-group">
+                        <div class="form-group hidden-field" id="deposit-screenshot-group">
                             <label for="payment-screenshot">Payment Screenshot (Optional)</label>
                             <div class="file-upload-wrapper">
                                 <input type="file" id="payment-screenshot" name="screenshot" accept="image/*"
